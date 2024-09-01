@@ -1,13 +1,18 @@
 const btnElement = document.getElementById("btn");
 const appElement = document.getElementById("app");
 
+getNotes().forEach((note) => {
+  const noteEl = createNoteElement(note.id, note.content);
+  appElement.insertBefore(noteEl, btnElement);
+});
+
 function createNoteElement(id, content) {
   const element = document.createElement("textarea");
   element.classList.add("note");
-  element.placeholder = "Empty NOte";
+  element.placeholder = "Empty Note";
   element.value = content;
 
-  element.addEventListener("rightclick", () => {
+  element.addEventListener("dblclick", () => {
     const warning = confirm("Do you want delete it?");
     if (warning) {
       deleteNote(id, element);
@@ -21,12 +26,21 @@ function createNoteElement(id, content) {
   return element;
 }
 
-function deleteNote() {}
+function deleteNote(id, element) {
+  const notes = getNotes().filter((note) => note.id != id);
+  saveNote(notes);
+  appElement.removeChild(element);
+}
 
-function updateNote() {}
+function updateNote(id, content) {
+  const notes = getNotes();
+  const target = notes.filter((note) => note.id == id)[0];
+  target.content = content;
+  saveNote(notes);
+}
 
 function addNote() {
-  const notes = getNote();
+  const notes = getNotes();
   const noteObj = {
     id: Math.floor(Math.random() * 10000),
     content: "",
@@ -39,7 +53,7 @@ function addNote() {
   saveNote(notes);
 }
 
-function saveNote(note) {
+function saveNote(notes) {
   localStorage.setItem("note-app", JSON.stringify(notes));
 }
 
