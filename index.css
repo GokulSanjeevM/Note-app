@@ -2,7 +2,7 @@ body {
     margin: 0;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     box-sizing: border-box;
-    background-image: linear-gradient(to bottom, #004d7a, #008793);
+    background-color: #008793;
 }
 
 .heading {
